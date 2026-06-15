@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 const Navbar = () => {
   return (
-    <nav className="fixed z-30 inset-x-4 top-6 mx-auto h-16 max-w-(--breakpoint-xl) rounded-full border bg-[#00000049] backdrop-blur-2xl shadow-md">
+    <nav className="fixed z-30 inset-x-4 top-6 mx-auto h-16 max-w-(--breakpoint-xl) rounded-full border bg-background shadow-md">
       <div className="mx-auto flex h-full items-center justify-between px-4">
         <h2 className="font-bold text-sm">ASSIGAME</h2>
 
