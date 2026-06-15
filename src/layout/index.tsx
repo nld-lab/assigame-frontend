@@ -1,14 +1,12 @@
-import { ModeToggle } from "@/components/Toogle-mode";
+import Navbar from "@/components/navbar";
 import type { PropsWithChildren } from "react";
 
 
 export default function Layout({children}: PropsWithChildren) {
   return (
-    <div className="text-foreground flex flex-col">
-        <header className="p-4 border-b fixed w-full flex items-center justify-end shadow-md">
-            <ModeToggle />
-        </header>
-        <main className="flex items-center justify-center h-screen">
+    <div className="text-foreground flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-1 flex flex-col w-full">
             {children}
         </main>
     </div>
