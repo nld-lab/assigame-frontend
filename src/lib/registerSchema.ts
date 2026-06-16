@@ -1,22 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as z from "zod";
 
-export interface ActionResponse<T = any> {
-  success: boolean;
-  message: string;
-  errors?: {
-    [K in keyof T]?: string[];
-  };
-  inputs?: T;
-}
-export const formSchema = z.object({
-  name: z.string({ error: "This field is required" }),
-  surname: z.string({ error: "This field is required" }),
-  username: z.string({ error: "This field is required" }),
-  email: z.email({ error: "Please enter a valid email" }),
-  telephone: z.coerce.number({ error: "Please enter a valid phone number" }),
-  password: z.string({ error: "This field is required" }),
-  confirm_password: z.string({ error: "This field is required" }),
-  gender: z.string().min(1, "Please select an item"),
-  residence: z.string({ error: "This field is required" }),
-});
+export const formSchema = z
+  .object({
+    name: z.string().min(1, "Ce champ est requis"),
+    surname: z.string().min(1, "Ce champ est requis"),
+    username: z.string().min(2, "Au moins 2 caractères"),
+    email: z.email("Veuillez entrer un email valide"),
+    telephone: z
+      .string()
+      .min(6, "Numéro de téléphone invalide")
+      .regex(/^[+0-9 ]+$/, "Numéro de téléphone invalide"),
+    password: z.string().min(6, "Au moins 6 caractères"),
+    confirm_password: z.string().min(1, "Ce champ est requis"),
+    gender: z.string().min(1, "Veuillez sélectionner une option"),
+    residence: z.string().min(1, "Ce champ est requis"),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirm_password"],
+  });

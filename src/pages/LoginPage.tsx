@@ -1,18 +1,25 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { DotPattern } from "@/components/ui/dot-pattern";
+import { useAuth } from "@/hooks/use-auth";
+import { homePathForRole } from "@/routes/role-redirect";
 
 const formSchema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters long"),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
+  username: z.string().min(2, "Le nom d'utilisateur doit contenir au moins 2 caractères"),
+  password: z.string().min(1, "Le mot de passe est requis"),
 });
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       username: "",
@@ -21,8 +28,22 @@ const Login = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const {
+    formState: { isSubmitting },
+  } = form;
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const user = await login({
+        login: data.username,
+        password: data.password,
+      });
+      toast.success(`Bienvenue ${user.prenom_utilisateur} !`);
+      const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname;
+      navigate(from ?? homePathForRole(user.role), { replace: true });
+    } catch {
+      toast.error("Identifiants invalides. Veuillez réessayer.");
+    }
   };
 
   return (
@@ -53,11 +74,11 @@ const Login = () => {
               name="username"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Username</FieldLabel>
+                  <FieldLabel>Nom d'utilisateur</FieldLabel>
                   <Input
                     aria-invalid={fieldState.invalid}
                     className="w-full"
-                    placeholder="Username"
+                    placeholder="Nom d'utilisateur"
                     {...field}
                   />
                   <FieldError errors={[fieldState.error]} />
@@ -69,11 +90,11 @@ const Login = () => {
               name="password"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Password</FieldLabel>
+                  <FieldLabel>Mot de passe</FieldLabel>
                   <Input
                     aria-invalid={fieldState.invalid}
                     className="w-full"
-                    placeholder="Password"
+                    placeholder="Mot de passe"
                     type="password"
                     {...field}
                   />
@@ -81,8 +102,8 @@ const Login = () => {
                 </Field>
               )}
             />
-            <Button className="mt-4 w-full" type="submit">
-              Se Connecter
+            <Button className="mt-4 w-full" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Connexion..." : "Se Connecter"}
             </Button>
           </form>
 

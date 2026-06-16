@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as z from "zod";
+import { useEffect, useState } from "react";
 import { formSchema } from "../lib/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
-import { motion } from "motion/react";
-import { Check } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
+import { homePathForRole } from "@/routes/role-redirect";
+import { AuthService } from "@/services/AuthService";
+import type { RegisterRequest } from "@/types";
 import {
   Field,
   FieldContent,
@@ -37,22 +41,58 @@ import {
 //------------------------------
 type Schema = z.infer<typeof formSchema>;
 
+// Tout compte créé à l'inscription est un VENDEUR (les clients n'ont pas de compte).
+const ROLE_VENDEUR = "VENDEUR";
+
 export function RegisterForm() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [vendeurTypeId, setVendeurTypeId] = useState<number | null>(null);
+
   const form = useForm<Schema>({
     resolver: zodResolver(formSchema as any),
   });
   const {
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting },
   } = form;
 
+  useEffect(() => {
+    AuthService.getTypes()
+      .then((data) => {
+        const vendeur = data.find(
+          (t) => t.libelle_type_utilisateur.toUpperCase() === ROLE_VENDEUR
+        );
+        setVendeurTypeId(vendeur ? vendeur.id_type_utilisateur : null);
+      })
+      .catch(() => setVendeurTypeId(null));
+  }, []);
+
   const handleSubmit = form.handleSubmit(async (data: Schema) => {
+    if (vendeurTypeId === null) {
+      toast.error(
+        "Le type de compte « VENDEUR » est introuvable côté serveur. Contactez l'administrateur."
+      );
+      return;
+    }
     try {
-      // TODO: implement form submission
-      console.log(data);
-      form.reset();
-    } catch (error) {
-      // TODO: handle error
-      console.error(error);
+      const payload: RegisterRequest = {
+        nom_utilisateur: data.name,
+        prenom_utilisateur: data.surname,
+        sexe_utilisateur: data.gender,
+        telephone_utilisateur: data.telephone,
+        mail_utilisateur: data.email,
+        login_utilisateur: data.username,
+        password_utilisateur: data.password,
+        residence_utilisateur: data.residence,
+        type_utilisateur: { id_type_utilisateur: vendeurTypeId },
+      };
+      const user = await register(payload);
+      toast.success("Compte vendeur créé avec succès !");
+      navigate(homePathForRole(user.role), { replace: true });
+    } catch {
+      toast.error(
+        "L'inscription a échoué. Vérifiez vos informations (login/téléphone/email déjà utilisés ?)."
+      );
     }
   });
   const stepsFields: Stepfields<keyof Schema>[] = [
@@ -318,38 +358,6 @@ export function RegisterForm() {
     },
   ];
 
-  if (isSubmitSuccessful) {
-    return (
-      <div className="p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, stiffness: 300, damping: 25 }}
-          className="h-full py-6 px-3"
-        >
-          <motion.div
-            initial={{ scale: 0.5 }}
-            animate={{ scale: 1 }}
-            transition={{
-              delay: 0.3,
-              type: "spring",
-              stiffness: 500,
-              damping: 15,
-            }}
-            className="mb-4 flex justify-center border rounded-full w-fit mx-auto p-2"
-          >
-            <Check className="size-8" />
-          </motion.div>
-          <h2 className="text-center text-2xl text-pretty font-bold mb-2">
-            Thank you
-          </h2>
-          <p className="text-center text-lg text-pretty text-muted-foreground">
-            Form submitted successfully, we will get back to you soon
-          </p>
-        </motion.div>
-      </div>
-    );
-  }
   return (
     <div>
       <h1 className="text-4xl font-bold text-center mb-2">Créer un compte</h1>
@@ -373,13 +381,13 @@ export function RegisterForm() {
             <FormFooter>
               <PreviousButton>
                 <ChevronLeft />
-                Previous
+                Précédent
               </PreviousButton>
               <NextButton>
-                Next <ChevronRight />
+                Suivant <ChevronRight />
               </NextButton>
               <SubmitButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit"}
+                {isSubmitting ? "Inscription..." : "S'inscrire"}
               </SubmitButton>
             </FormFooter>
           </MultiStepFormContent>

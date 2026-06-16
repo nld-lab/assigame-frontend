@@ -1,14 +1,13 @@
 import Navbar from "@/components/navbar";
-import type { PropsWithChildren } from "react";
+import { Outlet } from "react-router";
 
-
-export default function Layout({children}: PropsWithChildren) {
+export default function PublicLayout() {
   return (
     <div className="text-foreground flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-1 flex flex-col w-full">
-            {children}
-        </main>
+      <Navbar />
+      <main className="flex-1 flex flex-col w-full">
+        <Outlet />
+      </main>
     </div>
-  )
+  );
 }
