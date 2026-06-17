@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
-import { LogOut, Menu, Store } from "lucide-react";
+import { LogOut, Menu, Store, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -161,6 +161,15 @@ export default function DashboardLayout() {
                   </span>
                 </div>
               </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link
+                  to={isAdminArea ? "/admin/profil" : "/dashboard/profil"}
+                >
+                  <User className="size-4" />
+                  Mon profil
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem variant="destructive" onClick={handleLogout}>
                 <LogOut className="size-4" />

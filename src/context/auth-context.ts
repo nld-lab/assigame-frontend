@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { LoginRequest, RegisterRequest, Utilisateur } from "@/types";
+import type { LoginRequest, RegisterRequest, UpdateProfileRequest, Utilisateur } from "@/types";
 
 export interface AuthContextValue {
     user: Utilisateur | null;
@@ -8,6 +8,7 @@ export interface AuthContextValue {
     isLoading: boolean;
     login: (credentials: LoginRequest) => Promise<Utilisateur>;
     register: (payload: RegisterRequest) => Promise<Utilisateur>;
+    updateProfile: (payload: UpdateProfileRequest) => Promise<Utilisateur>;
     logout: () => void;
 }
 

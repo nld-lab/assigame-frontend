@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import {
   Card,
   CardContent,
@@ -5,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 
 export default function VendeurDashboard() {
@@ -26,7 +28,11 @@ export default function VendeurDashboard() {
             <CardDescription>Gérez vos annonces publiées</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">À implémenter</p>
+            <Link to="/dashboard/produits">
+              <Button variant="outline" size="sm">
+                Voir mes produits
+              </Button>
+            </Link>
           </CardContent>
         </Card>
         <Card>
@@ -35,7 +41,9 @@ export default function VendeurDashboard() {
             <CardDescription>Ajoutez une nouvelle annonce</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">À implémenter</p>
+            <Link to="/dashboard/produits/nouveau">
+              <Button size="sm">Publier un produit</Button>
+            </Link>
           </CardContent>
         </Card>
         <Card>
@@ -44,7 +52,11 @@ export default function VendeurDashboard() {
             <CardDescription>Vos informations de contact</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">À implémenter</p>
+            <Link to="/dashboard/profil">
+              <Button variant="outline" size="sm">
+                Modifier mon profil
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

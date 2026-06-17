@@ -8,6 +8,7 @@ export interface CategorieProduit {
     idcategorie_produit: number;
     nom_categorieproduit: string;
     description: string | null;
+    image_type: string | null;
 }
 
 export interface Utilisateur {
@@ -21,15 +22,15 @@ export interface Utilisateur {
     residence_utilisateur: string | null;
     id_type_utilisateur: number | null;
     role: string | null;
+    type_utilisateur?: TypeUtilisateur | null;
 }
 
 export interface Produit {
     id_produit: number;
     nom_produit: string;
-    description: string;
+    description: string | null;
     prix: number;
-    image: string | null;
-    image_type: string;
+    image_type: string | null;
     date_ajout: string;
     statut: string;
     categorie_produit?: CategorieProduit | null;
@@ -58,4 +59,26 @@ export interface RegisterRequest {
 export interface AuthResponse {
     token: string;
     user: Utilisateur;
+}
+
+export interface UpdateProfileRequest {
+    nom_utilisateur: string;
+    prenom_utilisateur: string;
+    sexe_utilisateur: string;
+    telephone_utilisateur: string;
+    mail_utilisateur: string;
+    residence_utilisateur: string;
+    password_utilisateur?: string;
+}
+
+export interface UtilisateurPayload {
+    nom_utilisateur: string;
+    prenom_utilisateur: string;
+    sexe_utilisateur: string;
+    telephone_utilisateur: string;
+    mail_utilisateur: string;
+    login_utilisateur: string;
+    password_utilisateur?: string;
+    residence_utilisateur: string;
+    type_utilisateur: { id_type_utilisateur: number };
 }

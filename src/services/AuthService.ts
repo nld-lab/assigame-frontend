@@ -5,6 +5,7 @@ import type {
     LoginRequest,
     RegisterRequest,
     TypeUtilisateur,
+    UpdateProfileRequest,
     Utilisateur,
 } from "@/types";
 
@@ -25,6 +26,12 @@ export const AuthService = {
 
     getMe: async (): Promise<Utilisateur> => {
         const response = await api.get<Utilisateur>("/auth/me");
+        authStorage.setUser(response.data);
+        return response.data;
+    },
+
+    updateProfile: async (payload: UpdateProfileRequest): Promise<Utilisateur> => {
+        const response = await api.put<Utilisateur>("/auth/me", payload);
         authStorage.setUser(response.data);
         return response.data;
     },

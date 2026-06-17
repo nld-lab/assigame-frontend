@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed z-30 inset-x-4 top-6 mx-auto h-16 max-w-(--breakpoint-xl) rounded-full border bg-background shadow-md">
+    <nav className="fixed z-30 inset-x-4 top-6 mx-auto h-16 max-w-(--breakpoint-xl) rounded-full border bg-[#f9f9f952] backdrop-blur-sm shadow-md">
       <div className="mx-auto flex h-full items-center justify-between px-6">
         <Link to="/">
           <h2 className="font-bold text-sm">ASSIGAME</h2>
