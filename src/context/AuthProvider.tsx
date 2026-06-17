@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { PropsWithChildren } from "react";
 import { AuthService } from "@/services/AuthService";
 import { authStorage } from "@/lib/auth-storage";
-import type { LoginRequest, RegisterRequest, Utilisateur } from "@/types";
+import type { LoginRequest, RegisterRequest, UpdateProfileRequest, Utilisateur } from "@/types";
 import { AuthContext, type AuthContextValue } from "./auth-context";
 
 export function AuthProvider({ children }: PropsWithChildren) {
@@ -37,6 +37,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
         return createdUser;
     }, []);
 
+    const updateProfile = useCallback(async (payload: UpdateProfileRequest) => {
+        const updatedUser = await AuthService.updateProfile(payload);
+        setUser(updatedUser);
+        return updatedUser;
+    }, []);
+
     const logout = useCallback(() => {
         AuthService.logout();
         setUser(null);
@@ -50,9 +56,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
             isLoading,
             login,
             register,
+            updateProfile,
             logout,
         }),
-        [user, isLoading, login, register, logout]
+        [user, isLoading, login, register, updateProfile, logout]
     );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

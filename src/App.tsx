@@ -10,14 +10,18 @@ import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import VendeurDashboard from "./pages/dashboard/VendeurDashboard";
-import PlaceholderPage from "./pages/dashboard/PlaceholderPage";
+import VendeurProduitsPage from "./pages/dashboard/VendeurProduitsPage";
+import ProfilePage from "./features/profile/ProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminCategoriesPage from "./pages/admin/AdminCategoriesPage";
+import AdminUtilisateursPage from "./pages/admin/AdminUtilisateursPage";
+import AdminProduitsPage from "./pages/admin/AdminProduitsPage";
 
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Toaster richColors position="top-center" />
+        <Toaster richColors position="bottom-right" />
         <AuthProvider>
           <Routes>
             {/* Pages publiques */}
@@ -28,20 +32,17 @@ function App() {
             </Route>
 
             {/* Espace vendeur */}
-            <Route element={<ProtectedRoute allowedRoles={["VENDEUR", "ADMIN"]} />}>
+            <Route element={<ProtectedRoute allowedRoles={["VENDEUR"]} />}>
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<VendeurDashboard />} />
-                <Route
-                  path="/dashboard/produits"
-                  element={<PlaceholderPage title="Mes produits" />}
-                />
+                <Route path="/dashboard/produits" element={<VendeurProduitsPage />} />
                 <Route
                   path="/dashboard/produits/nouveau"
-                  element={<PlaceholderPage title="Publier un produit" />}
+                  element={<VendeurProduitsPage />}
                 />
                 <Route
                   path="/dashboard/profil"
-                  element={<PlaceholderPage title="Mon profil" />}
+                  element={<ProfilePage />}
                 />
               </Route>
             </Route>
@@ -52,16 +53,17 @@ function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route
                   path="/admin/utilisateurs"
-                  element={<PlaceholderPage title="Utilisateurs" />}
+                  element={<AdminUtilisateursPage />}
                 />
                 <Route
                   path="/admin/produits"
-                  element={<PlaceholderPage title="Produits" />}
+                  element={<AdminProduitsPage />}
                 />
                 <Route
                   path="/admin/categories"
-                  element={<PlaceholderPage title="Catégories" />}
+                  element={<AdminCategoriesPage />}
                 />
+                <Route path="/admin/profil" element={<ProfilePage />} />
               </Route>
             </Route>
 

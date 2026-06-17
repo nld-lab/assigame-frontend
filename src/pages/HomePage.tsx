@@ -1,9 +1,15 @@
-
+import HeroSection from "@/features/homepage/HeroSection";
+import CategorieSection from "@/features/homepage/CategorieSection";
+import ProductSection from "@/features/homepage/ProductSection";
+import CTA from "@/features/homepage/cta";
 
 export default function HomePage() {
   return (
-    <div className="h-screen w-full flex items-center justify-center">
-      <h1>Bienvenue sur Assigame</h1>
+    <div className="flex w-full px-6 lg:px-10 flex-col items-center justify-center gap-10">
+      <HeroSection />
+      <CategorieSection />
+      <ProductSection />
+      <CTA />
     </div>
-  )
+  );
 }

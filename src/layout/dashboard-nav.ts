@@ -27,4 +27,5 @@ export const adminNav: NavItem[] = [
   { to: "/admin/utilisateurs", label: "Utilisateurs", icon: Users },
   { to: "/admin/produits", label: "Produits", icon: Package },
   { to: "/admin/categories", label: "Catégories", icon: Tags },
+  { to: "/admin/profil", label: "Mon profil", icon: User },
 ];

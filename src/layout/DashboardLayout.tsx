@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
-import { LogOut, Menu, Store } from "lucide-react";
+import { LogOut, Menu, Store, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -139,6 +139,16 @@ export default function DashboardLayout() {
 
           <ModeToggle />
 
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            onClick={handleLogout}
+          >
+            <LogOut className="size-4" />
+            <span className="hidden sm:inline">Se déconnecter</span>
+          </Button>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="gap-2 px-2">
@@ -162,9 +172,13 @@ export default function DashboardLayout() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem variant="destructive" onClick={handleLogout}>
-                <LogOut className="size-4" />
-                Se déconnecter
+              <DropdownMenuItem asChild>
+                <Link
+                  to={isAdminArea ? "/admin/profil" : "/dashboard/profil"}
+                >
+                  <User className="size-4" />
+                  Mon profil
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
