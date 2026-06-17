@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   const { user } = useAuth();
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-bold">Administration</h1>
         <p className="text-muted-foreground">

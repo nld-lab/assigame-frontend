@@ -118,7 +118,7 @@ export default function AdminUtilisateursPage() {
     };
 
     return (
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto">
             <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold">Utilisateurs</h1>

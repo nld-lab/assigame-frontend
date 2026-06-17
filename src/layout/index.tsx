@@ -5,7 +5,7 @@ export default function PublicLayout() {
   return (
     <div className="text-foreground flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1 flex flex-col lg:px-10 px-6 w-full">
+      <main className="flex-1 flex flex-col w-full">
         <Outlet />
       </main>
     </div>

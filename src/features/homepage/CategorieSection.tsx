@@ -19,7 +19,7 @@ export default function CategorieSection() {
 
     return (
         <section className="w-full px-4 pb-20">
-            <div className="mx-auto max-w-6xl">
+            <div className="mx-auto max-w-7xl">
                 <div className="mb-8 flex items-center justify-between">
                     <h2 className="text-2xl font-bold sm:text-3xl">Catégories</h2>
                     <Link
@@ -50,8 +50,8 @@ export default function CategorieSection() {
                 )}
 
                 {!error && !isLoading && categories.length > 0 && (
-                    <div className="grid grid-cols-2 gap-4 lg:flex lg:flex-wrap lg:justify-center">
-                        {categories.slice(0, 4).map((categorie, index) => (
+                    <div className="grid grid-cols-2 gap-4 lg:grid-cols-5 lg:justify-center">
+                        {categories.slice(0, 5).map((categorie, index) => (
                             <CategoryCard
                                 key={categorie.idcategorie_produit}
                                 categorie={categorie}

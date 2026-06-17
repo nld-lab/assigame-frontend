@@ -139,6 +139,16 @@ export default function DashboardLayout() {
 
           <ModeToggle />
 
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            onClick={handleLogout}
+          >
+            <LogOut className="size-4" />
+            <span className="hidden sm:inline">Se déconnecter</span>
+          </Button>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="gap-2 px-2">
@@ -169,11 +179,6 @@ export default function DashboardLayout() {
                   <User className="size-4" />
                   Mon profil
                 </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem variant="destructive" onClick={handleLogout}>
-                <LogOut className="size-4" />
-                Se déconnecter
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

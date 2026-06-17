@@ -143,7 +143,7 @@ export default function AdminProduitsPage() {
     };
 
     return (
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto">
             <div className="mb-8">
                 <h1 className="text-2xl font-bold">Produits</h1>
                 <p className="text-muted-foreground">
