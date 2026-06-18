@@ -3,6 +3,7 @@ import { ThemeProvider } from "./context/Theme-provider";
 import { AuthProvider } from "./context/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
 import PublicLayout from "./layout";
+import AuthLayout from "./layout/AuthLayout";
 import DashboardLayout from "./layout/DashboardLayout";
 import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFoundPage";
@@ -16,6 +17,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCategoriesPage from "./pages/admin/AdminCategoriesPage";
 import AdminUtilisateursPage from "./pages/admin/AdminUtilisateursPage";
 import AdminProduitsPage from "./pages/admin/AdminProduitsPage";
+import ProductPage from "./pages/ProductPage";
+import DetailsProduit from "./pages/DetailsProduit";
 
 function App() {
   return (
@@ -27,6 +30,13 @@ function App() {
             {/* Pages publiques */}
             <Route element={<PublicLayout />}>
               <Route path="/" element={<HomePage />} />
+              <Route path="/produits" element={<ProductPage />} />
+              <Route path="/produits/:id" element={<DetailsProduit />} />
+              <Route path="/products" element={<ProductPage />} />
+            </Route>
+
+            {/* Auth (sans navbar) */}
+            <Route element={<AuthLayout />}>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>
