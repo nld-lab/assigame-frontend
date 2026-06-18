@@ -72,7 +72,7 @@ function HeroSection() {
           <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent" />
 
           <div className="relative px-7 py-16 sm:px-12 sm:py-24">
-            <h1 className="max-w-xl text-4xl leading-[1.1] font-bold text-white sm:text-5xl lg:text-6xl">
+            <h1 className="max-w-xl title text-4xl leading-[1.1] font-bold text-white sm:text-5xl lg:text-6xl">
               Achetez et <span className="text-primary">vendez en ligne</span>{" "}
               en toute simplicité.
             </h1>

@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -200,4 +202,8 @@
   html {
     @apply font-sans;
   }
+}
+
+.title{
+  font-family: 'Inria Serif', serif;
 }

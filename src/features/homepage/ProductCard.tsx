@@ -80,15 +80,15 @@ export function ProductSkeleton() {
             className="gap-0 overflow-hidden rounded-xl border-0 py-0 shadow-sm ring-1 ring-foreground/5"
         >
             <CardContent className="space-y-2 p-3">
-                <div className="aspect-4/3 animate-pulse rounded-lg bg-muted" />
+                <div className="aspect-4/3 animate-pulse rounded-lg bg-background/50" />
                 <div className="space-y-1.5">
-                    <div className="h-3 w-2/5 animate-pulse rounded bg-muted" />
-                    <div className="h-4 w-4/5 animate-pulse rounded bg-muted" />
+                    <div className="h-3 w-2/5 animate-pulse rounded bg-background/50" />
+                    <div className="h-4 w-4/5 animate-pulse rounded bg-background/50" />
                 </div>
             </CardContent>
             <CardFooter className="justify-between border-0 bg-transparent px-3 pb-3 pt-0">
-                <div className="h-4 w-16 animate-pulse rounded bg-muted" />
-                <div className="h-6 w-16 animate-pulse rounded-full bg-muted" />
+                <div className="h-4 w-16 animate-pulse rounded bg-background/50" />
+                <div className="h-6 w-16 animate-pulse rounded-full bg-background/50" />
             </CardFooter>
         </Card>
     );

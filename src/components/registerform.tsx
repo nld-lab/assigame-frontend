@@ -360,13 +360,9 @@ export function RegisterForm() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center mb-2">Créer un compte</h1>
-      <p className="text-center text-sm text-pretty text-muted-foreground mb-6">
-        Veuillez remplir le formulaire ci-dessous pour créer votre compte
-      </p>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col p-4 md:p-5 mx-auto rounded-md w-full gap-2 "
+        className="mx-auto flex w-full flex-col gap-2"
       >
         <MultiStepFormProvider
           stepsFields={stepsFields}
