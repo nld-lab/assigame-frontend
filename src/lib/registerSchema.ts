@@ -8,8 +8,8 @@ export const formSchema = z
     email: z.email("Veuillez entrer un email valide"),
     telephone: z
       .string()
-      .min(6, "Numéro de téléphone invalide")
-      .regex(/^[+0-9 ]+$/, "Numéro de téléphone invalide"),
+      .min(1, "Ce champ est requis")
+      .regex(/^\+[0-9]+$/, "Numéro de téléphone invalide"),
     password: z.string().min(6, "Au moins 6 caractères"),
     confirm_password: z.string().min(1, "Ce champ est requis"),
     gender: z.string().min(1, "Veuillez sélectionner une option"),

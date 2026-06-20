@@ -24,7 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Toaster richColors position="bottom-right" />
+        <Toaster richColors position="top-left" />
         <AuthProvider>
           <Routes>
             {/* Pages publiques */}
