@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
+import { motion } from "motion/react";
 import {
     ArrowLeft,
     Mail,
@@ -25,6 +26,13 @@ import {
     buildWhatsAppLink,
 } from "@/lib/contact-links";
 import { ProduitService } from "@/services/ProduitService";
+import {
+    fadeRight,
+    fadeUp,
+    staggerContainer,
+    staggerItem,
+    viewportOnce,
+} from "@/lib/motion";
 import type { Produit } from "@/types";
 
 function formatPrice(prix: number) {
@@ -150,7 +158,13 @@ export default function DetailsProduit() {
                 </Link>
             </Button>
 
-            <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+            <motion.div
+                className="grid gap-8 lg:grid-cols-2 lg:gap-12"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+            >
+                <motion.div variants={fadeRight}>
                 <Card className="overflow-hidden py-0">
                     <CardContent className="p-0">
                         <div className="flex aspect-square items-center justify-center bg-muted/40">
@@ -172,8 +186,9 @@ export default function DetailsProduit() {
                         </div>
                     </CardContent>
                 </Card>
+                </motion.div>
 
-                <div className="space-y-6">
+                <motion.div className="space-y-6" variants={fadeUp}>
                     <div className="space-y-3">
                         <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                             {produit.categorie_produit?.nom_categorieproduit ??
@@ -264,13 +279,19 @@ export default function DetailsProduit() {
                             </CardContent>
                         </Card>
                     )}
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             {suggestions.length > 0 && (
-                <section className="mt-16 space-y-6">
+                <motion.section
+                    className="mt-16 space-y-6"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportOnce}
+                >
                     <Separator />
-                    <div>
+                    <motion.div variants={fadeUp}>
                         <h2 className="text-xl font-bold">
                             Produits dans la même categorie
                         </h2>
@@ -279,13 +300,15 @@ export default function DetailsProduit() {
                             {produit.categorie_produit?.nom_categorieproduit ??
                                 "« Sans catégorie »"}
                         </p>
-                    </div>
+                    </motion.div>
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
                         {suggestions.map((item) => (
-                            <ProductCard key={item.id_produit} produit={item} />
+                            <motion.div key={item.id_produit} variants={staggerItem}>
+                                <ProductCard produit={item} />
+                            </motion.div>
                         ))}
                     </div>
-                </section>
+                </motion.section>
             )}
 
             {suggestions.length === 0 && (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -7,6 +8,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import { fadeUp, staggerContainer, staggerItem } from "@/lib/motion";
 import { Search } from "lucide-react";
 import { Link } from "react-router";
 
@@ -71,18 +73,32 @@ function HeroSection() {
 
           <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent" />
 
-          <div className="relative px-7 py-16 sm:px-12 sm:py-24">
-            <h1 className="max-w-xl title text-4xl leading-[1.1] font-bold text-white sm:text-5xl lg:text-6xl">
+          <motion.div
+            className="relative px-7 py-16 sm:px-12 sm:py-24"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.h1
+              variants={fadeUp}
+              className="max-w-xl title text-4xl leading-[1.1] font-bold text-white sm:text-5xl lg:text-6xl"
+            >
               Achetez et <span className="text-primary">vendez en ligne</span>{" "}
               en toute simplicité.
-            </h1>
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-white sm:text-base">
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              className="mt-6 max-w-md text-sm leading-relaxed text-white sm:text-base"
+            >
               Assigame met en relation acheteurs et vendeurs. Publiez vos
               produits gratuitement et laissez les acheteurs intéressés vous
               contacter directement par WhatsApp ou email.
-            </p>
+            </motion.p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+            <motion.div
+              variants={staggerItem}
+              className="mt-8 flex flex-wrap items-center justify-between gap-4"
+            >
               <div className="flex gap-4">
                 <Link to="/dashboard/produits">
                   <Button size="lg" className="rounded-full px-4">
@@ -118,8 +134,8 @@ function HeroSection() {
                   </Button>
                 </form>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           <div className="absolute right-7 bottom-6 flex gap-2 sm:right-12">
             {HERO_IMAGES.map((image, index) => (

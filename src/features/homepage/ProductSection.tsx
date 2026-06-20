@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
+import { motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
 import { ProduitService } from "@/services/ProduitService";
 import type { Produit } from "@/types";
+import {
+    fadeUp,
+    staggerContainer,
+    staggerItem,
+    viewportOnce,
+} from "@/lib/motion";
 import { ProductCard, ProductSkeleton } from "./ProductCard";
 
 const MAX_PRODUCTS = 10;
@@ -38,7 +45,13 @@ export default function ProductSection() {
     return (
         <section className="w-full px-4 pb-20">
             <div className="mx-auto max-w-6xl">
-                <div className="mb-8 flex items-center justify-between">
+                <motion.div
+                    className="mb-8 flex items-center justify-between"
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportOnce}
+                >
                     <h2 className="text-2xl font-bold sm:text-3xl">
                         Nouveaux produits
                     </h2>
@@ -49,7 +62,7 @@ export default function ProductSection() {
                         Voir tout
                         <ChevronRight className="size-4" />
                     </Link>
-                </div>
+                </motion.div>
 
                 {error && (
                     <p className="text-center text-sm text-muted-foreground">
@@ -72,14 +85,19 @@ export default function ProductSection() {
                 )}
 
                 {!error && !isLoading && latestProducts.length > 0 && (
-                    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
+                    <motion.div
+                        className="grid grid-cols-2 gap-6 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={viewportOnce}
+                    >
                         {latestProducts.map((produit) => (
-                            <ProductCard
-                                key={produit.id_produit}
-                                produit={produit}
-                            />
+                            <motion.div key={produit.id_produit} variants={staggerItem}>
+                                <ProductCard produit={produit} />
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </section>

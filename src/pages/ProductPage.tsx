@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
+import { motion } from "motion/react";
 import { Filter, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ import { CategorieService } from "@/services/CategorieService";
 import { ProduitService } from "@/services/ProduitService";
 import type { CategorieProduit, Produit } from "@/types";
 import { cn } from "@/lib/utils";
+import { fadeUp, staggerContainer, staggerItem } from "@/lib/motion";
 
 function CategoryFilters({
     categories,
@@ -157,7 +159,12 @@ export default function ProductPage() {
 
     return (
         <div className="mx-auto w-full max-w-7xl px-4 pt-28 pb-20">
-            <div className="mb-8 space-y-6">
+            <motion.div
+                className="mb-8 space-y-6"
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+            >
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">
                         Nos produits
@@ -202,7 +209,7 @@ export default function ProductPage() {
                         </form>
                     </CardContent>
                 </Card>
-            </div>
+            </motion.div>
 
             <div className="flex flex-col gap-8 lg:flex-row">
                 <aside className="hidden w-64 shrink-0 lg:block">
@@ -293,14 +300,22 @@ export default function ProductPage() {
                     )}
 
                     {!isLoading && filteredProducts.length > 0 && (
-                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4">
+                        <motion.div
+                            key={`${selectedCategoryId ?? "all"}-${searchQuery}`}
+                            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4"
+                            variants={staggerContainer}
+                            initial="hidden"
+                            animate="visible"
+                        >
                             {filteredProducts.map((produit) => (
-                                <ProductCard
+                                <motion.div
                                     key={produit.id_produit}
-                                    produit={produit}
-                                />
+                                    variants={staggerItem}
+                                >
+                                    <ProductCard produit={produit} />
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
                     )}
                 </div>
             </div>

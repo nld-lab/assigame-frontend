@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
 import { CategorieService } from "@/services/CategorieService";
 import type { CategorieProduit } from "@/types";
+import {
+    fadeUp,
+    staggerContainer,
+    staggerItem,
+    viewportOnce,
+} from "@/lib/motion";
 import { CategoryCard, CategorySkeleton } from "./CategoryCard";
 
 export default function CategorieSection() {
@@ -20,7 +27,13 @@ export default function CategorieSection() {
     return (
         <section className="w-full px-4 pb-20">
             <div className="mx-auto max-w-7xl">
-                <div className="mb-8 flex items-center justify-between">
+                <motion.div
+                    className="mb-8 flex items-center justify-between"
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportOnce}
+                >
                     <h2 className="text-2xl font-bold sm:text-3xl">Catégories</h2>
                     <Link
                         to="/produits"
@@ -29,7 +42,7 @@ export default function CategorieSection() {
                         Voir tout
                         <ChevronRight className="size-4" />
                     </Link>
-                </div>
+                </motion.div>
 
                 {error && (
                     <p className="text-center text-sm text-muted-foreground">{error}</p>
@@ -50,15 +63,19 @@ export default function CategorieSection() {
                 )}
 
                 {!error && !isLoading && categories.length > 0 && (
-                    <div className="grid grid-cols-2 gap-4 lg:grid-cols-5 lg:justify-center">
+                    <motion.div
+                        className="grid grid-cols-2 gap-4 lg:grid-cols-5 lg:justify-center"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={viewportOnce}
+                    >
                         {categories.slice(0, 5).map((categorie, index) => (
-                            <CategoryCard
-                                key={categorie.idcategorie_produit}
-                                categorie={categorie}
-                                index={index}
-                            />
+                            <motion.div key={categorie.idcategorie_produit} variants={staggerItem}>
+                                <CategoryCard categorie={categorie} index={index} />
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </section>
