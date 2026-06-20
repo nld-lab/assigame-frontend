@@ -37,7 +37,11 @@ api.interceptors.response.use(
         }
 
         // 401 = session invalide ou expirée
-        if (status === 401 && !url.includes('/auth/')) {
+        // On ne redirige que si la requête était authentifiée (un token était présent).
+        // Si aucun token n'était envoyé, c'est une route publique qui a refusé anonymement
+        // → on ne force pas le redirect pour ne pas casser les pages publiques.
+        const hadToken = !!error?.config?.headers?.Authorization;
+        if (status === 401 && !url.includes('/auth/') && hadToken) {
             authStorage.clear();
             if (window.location.pathname !== '/login') {
                 toast.error('Votre session a expiré. Veuillez vous reconnecter.');

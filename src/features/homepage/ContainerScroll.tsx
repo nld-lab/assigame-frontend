@@ -39,7 +39,22 @@ export const ContainerScroll = ({
       ref={containerRef}
     >
       <div
-        className="py-10 md:py-40 w-full relative"
+        className="absolute inset-y-0 z-0 pointer-events-none"
+        style={{
+          left: '50%',
+          right: 'auto',
+          transform: 'translateX(-50vw)',
+          width: '100vw',
+          backgroundImage: 'url("/mo.jpg")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+          maskImage: 'linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 85%)',
+          WebkitMaskImage: 'linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 85%)',
+        }}
+      />
+
+      <div
+        className="py-10 md:py-40 w-full relative z-10"
         style={{
           perspective: "1000px",
         }}
