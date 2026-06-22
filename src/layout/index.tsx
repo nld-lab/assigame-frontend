@@ -1,16 +1,15 @@
-import { ModeToggle } from "@/components/Toogle-mode";
-import type { PropsWithChildren } from "react";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { Outlet } from "react-router";
 
-
-export default function Layout({children}: PropsWithChildren) {
+export default function PublicLayout() {
   return (
-    <div className="text-foreground flex flex-col">
-        <header className="p-4 border-b fixed w-full flex items-center justify-end shadow-md">
-            <ModeToggle />
-        </header>
-        <main className="flex items-center justify-center h-screen">
-            {children}
-        </main>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-1 flex flex-col w-full">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
-  )
+  );
 }
