@@ -1,8 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { MoveRight } from "lucide-react";
-import { OriginButton } from "@/components/ui/origin-button";
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
+import { fadeUp, staggerContainer, staggerItem } from "@/lib/motion";
+import { Search } from "lucide-react";
+import { Link } from "react-router";
+
+const HERO_IMAGES = [
+  { src: "/hero image.png", alt: "Marketplace Assigame" },
+  { src: "/hero image 2.png", alt: "Achetez et vendez sur Assigame" },
+  { src: "/hero image 3.png", alt: "Achetez et vendez sur Assigame" },
+] as const;
+
+const AUTOPLAY_DELAY_MS = 4000;
 
 function HeroSection() {
   const [titleNumber, setTitleNumber] = useState(0);
@@ -23,54 +39,95 @@ function HeroSection() {
   }, [titleNumber, titles]);
 
   return (
-    <div className="w-full overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 lg:pt-16 pb-6 lg:pb-10 items-center">
+    <section className="w-full pt-28 pb-20">
+      <div className="mx-auto">
+        <div className="relative overflow-hidden rounded-[2rem] px-0 shadow-2xl lg:px-6">
+          <Carousel
+            setApi={setApi}
+            opts={{ loop: true }}
+            className="absolute inset-0 h-full w-full"
+          >
+            <CarouselContent className="ml-0 h-full">
+              {HERO_IMAGES.map((image) => (
+                <CarouselItem
+                  key={image.src}
+                  className="h-full basis-full pl-0"
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="h-full w-full object-cover"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
 
-          <div className="flex flex-col items-start text-left gap-6 lg:max-w-xl">
-            <div className="flex gap-4 flex-col w-full">
-              <h1 className="text-5xl md:text-7xl tracking-tighter font-regular flex flex-col items-start">
-                <span className="text-spektr-cyan-50">Avec Assigame</span>
-                <span className="relative flex w-full justify-start overflow-hidden text-left md:pb-4 md:pt-1">
-                  &nbsp;
-                  {titles.map((title, index) => (
-                    <motion.span
-                      key={index}
-                      className="absolute font-semibold left-0"
-                      initial={{ opacity: 0, y: "-100" }}
-                      transition={{ type: "spring", stiffness: 50 }}
-                      animate={
-                        titleNumber === index
-                          ? {
-                            y: 0,
-                            opacity: 1,
-                          }
-                          : {
-                            y: titleNumber > index ? -150 : 150,
-                            opacity: 0,
-                          }
-                      }
-                    >
-                      {title}
-                    </motion.span>
-                  ))}
-                </span>
-              </h1>
+          <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent" />
 
-              <p className="text-lg md:text-xl leading-relaxed tracking-tight text-muted-foreground">
-                La plateforme de référence pour acheter, vendre ou échanger vos articles en toute simplicité au Togo. Connectez-vous directement avec d'autres acheteurs et vendeurs de votre région pour faire de bonnes affaires.
-              </p>
-            </div>
+          <motion.div
+            className="relative px-7 py-16 sm:px-12 sm:py-24"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.h1
+              variants={fadeUp}
+              className="max-w-xl title text-4xl leading-[1.1] font-bold text-white sm:text-5xl lg:text-6xl"
+            >
+              Achetez et <span className="text-primary">vendez en ligne</span>{" "}
+              en toute simplicité.
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              className="mt-6 max-w-md text-sm leading-relaxed text-white sm:text-base"
+            >
+              Assigame met en relation acheteurs et vendeurs. Publiez vos
+              produits gratuitement et laissez les acheteurs intéressés vous
+              contacter directement par WhatsApp ou email.
+            </motion.p>
 
-            <div className="flex flex-row gap-3 mt-4 relative z-20">
-              <Button className="h-12 px-8 rounded-xl font-medium text-[15px] tracking-[-0.02em] gap-4" variant="outline">
-                Vendre
-              </Button>
-              <OriginButton>
-                Acheter <MoveRight className="w-4 h-4" />
-              </OriginButton>
-            </div>
-          </div>
+            <motion.div
+              variants={staggerItem}
+              className="mt-8 flex flex-wrap items-center justify-between gap-4"
+            >
+              <div className="flex gap-4">
+                <Link to="/dashboard/produits">
+                  <Button size="lg" className="rounded-full px-4">
+                    Publier un produit
+                  </Button>
+                </Link>
+                <Link to="/produits">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="rounded-full border-3 border-primary px-10 hover:bg-primary/10 dark:border-primary"
+                  >
+                    Explorer
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="w-full max-w-2xl">
+                <form className="flex items-center gap-2 rounded-full border bg-white p-2 shadow-xl">
+                  <Search className="ml-3 size-5 shrink-0 text-neutral-400" />
+                  <input
+                    type="text"
+                    placeholder="Rechercher une catégorie, un produit…"
+                    className="min-w-0 flex-1 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+                  />
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="gap-2 rounded-full px-6"
+                  >
+                    <Search className="size-4" />
+                    <span className="hidden sm:inline">Rechercher</span>
+                  </Button>
+                </form>
+              </div>
+            </motion.div>
+          </motion.div>
 
           <div className="flex items-center justify-center lg:justify-end relative z-20">
             <div className="relative flex items-center justify-center">

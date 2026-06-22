@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { homePathForRole } from "@/routes/role-redirect";
 import { AuthService } from "@/services/AuthService";
 import type { RegisterRequest } from "@/types";
+import { PhoneInput } from "@/components/phone-input";
 import {
   Field,
   FieldContent,
@@ -25,7 +26,10 @@ import {
   SubmitButton,
   MultiStepFormContent,
 } from "@/components/multi-step-viewer";
-import { MultiStepFormProvider, type Stepfields } from "@/hooks/use-multi-step-viewer";
+import {
+  MultiStepFormProvider,
+  type Stepfields,
+} from "@/hooks/use-multi-step-viewer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -60,7 +64,7 @@ export function RegisterForm() {
     AuthService.getTypes()
       .then((data) => {
         const vendeur = data.find(
-          (t) => t.libelle_type_utilisateur.toUpperCase() === ROLE_VENDEUR
+          (t) => t.libelle_type_utilisateur.toUpperCase() === ROLE_VENDEUR,
         );
         setVendeurTypeId(vendeur ? vendeur.id_type_utilisateur : null);
       })
@@ -70,7 +74,7 @@ export function RegisterForm() {
   const handleSubmit = form.handleSubmit(async (data: Schema) => {
     if (vendeurTypeId === null) {
       toast.error(
-        "Le type de compte « VENDEUR » est introuvable côté serveur. Contactez l'administrateur."
+        "Le type de compte « VENDEUR » est introuvable côté serveur. Contactez l'administrateur.",
       );
       return;
     }
@@ -91,7 +95,7 @@ export function RegisterForm() {
       navigate(homePathForRole(user.role), { replace: true });
     } catch {
       toast.error(
-        "L'inscription a échoué. Vérifiez vos informations (login/téléphone/email déjà utilisés ?)."
+        "L'inscription a échoué. Vérifiez vos informations (login/téléphone/email déjà utilisés ?).",
       );
     }
   });
@@ -217,13 +221,12 @@ export function RegisterForm() {
                 className="gap-1 col-span-full"
               >
                 <FieldLabel htmlFor="telephone">Téléphone *</FieldLabel>
-                <Input
-                  {...field}
+                <PhoneInput
                   id="telephone"
-                  type="text"
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                  }}
+                  defaultCountry="TG"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
                   aria-invalid={fieldState.invalid}
                   placeholder="Entrez votre numéro de téléphone"
                 />
@@ -360,13 +363,9 @@ export function RegisterForm() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center mb-2">Créer un compte</h1>
-      <p className="text-center text-sm text-pretty text-muted-foreground mb-6">
-        Veuillez remplir le formulaire ci-dessous pour créer votre compte
-      </p>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col p-4 md:p-5 mx-auto rounded-md w-full gap-2 "
+        className="mx-auto flex w-full flex-col gap-2"
       >
         <MultiStepFormProvider
           stepsFields={stepsFields}
