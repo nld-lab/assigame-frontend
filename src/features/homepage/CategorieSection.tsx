@@ -4,13 +4,9 @@ import { motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
 import { CategorieService } from "@/services/CategorieService";
 import type { CategorieProduit } from "@/types";
-import {
-    fadeUp,
-    staggerContainer,
-    staggerItem,
-    viewportOnce,
-} from "@/lib/motion";
+import { fadeUp, viewportOnce } from "@/lib/motion";
 import { CategoryCard, CategorySkeleton } from "./CategoryCard";
+import { Marquee } from "@/components/ui/marquee";
 
 export default function CategorieSection() {
     const [categories, setCategories] = useState<CategorieProduit[]>([]);
@@ -25,59 +21,64 @@ export default function CategorieSection() {
     }, []);
 
     return (
-        <section className="w-full px-4 pb-20">
-            <div className="mx-auto max-w-7xl">
+        <section className="w-full pb-20">
+            <div className="mx-auto px-4">
                 <motion.div
-                    className="mb-8 flex items-center justify-between"
+                    className="mb-10 flex flex-col items-center gap-3 text-center"
                     variants={fadeUp}
                     initial="hidden"
                     whileInView="visible"
                     viewport={viewportOnce}
                 >
-                    <h2 className="text-2xl font-bold sm:text-3xl">Catégories</h2>
+                    
+                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                        Parcourez nos catégories
+                    </h2>
+                    <p className="max-w-md text-sm text-muted-foreground">
+                        Trouvez rapidement ce que vous cherchez parmi nos
+                        différentes catégories de produits.
+                    </p>
                     <Link
                         to="/produits"
-                        className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                        className="mt-1 flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
                     >
-                        Voir tout
+                        Voir tout le catalogue
                         <ChevronRight className="size-4" />
                     </Link>
                 </motion.div>
-
-                {error && (
-                    <p className="text-center text-sm text-muted-foreground">{error}</p>
-                )}
-
-                {!error && isLoading && (
-                    <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-                        {Array.from({ length: 4 }).map((_, i) => (
-                            <CategorySkeleton key={i} />
-                        ))}
-                    </div>
-                )}
-
-                {!error && !isLoading && categories.length === 0 && (
-                    <p className="text-center text-sm text-muted-foreground">
-                        Aucune catégorie disponible pour le moment.
-                    </p>
-                )}
-
-                {!error && !isLoading && categories.length > 0 && (
-                    <motion.div
-                        className="grid grid-cols-2 gap-4 lg:grid-cols-5 lg:justify-center"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={viewportOnce}
-                    >
-                        {categories.slice(0, 5).map((categorie, index) => (
-                            <motion.div key={categorie.idcategorie_produit} variants={staggerItem}>
-                                <CategoryCard categorie={categorie} index={index} />
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                )}
             </div>
+
+            {error && (
+                <p className="text-center text-sm text-muted-foreground">
+                    {error}
+                </p>
+            )}
+
+            {!error && isLoading && (
+                <div className="flex justify-center gap-8 overflow-hidden px-4">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <CategorySkeleton key={i} />
+                    ))}
+                </div>
+            )}
+
+            {!error && !isLoading && categories.length === 0 && (
+                <p className="text-center text-sm text-muted-foreground">
+                    Aucune catégorie disponible pour le moment.
+                </p>
+            )}
+
+            {!error && !isLoading && categories.length > 0 && (
+                <Marquee speed={35} gap={3}>
+                    {categories.map((categorie, index) => (
+                        <CategoryCard
+                            key={categorie.idcategorie_produit}
+                            categorie={categorie}
+                            index={index}
+                        />
+                    ))}
+                </Marquee>
+            )}
         </section>
     );
 }

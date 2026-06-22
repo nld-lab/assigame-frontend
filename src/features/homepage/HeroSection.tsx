@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { fadeUp, staggerContainer, staggerItem } from "@/lib/motion";
 import { Search } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const HERO_IMAGES = [
   { src: "/hero image.png", alt: "Marketplace Assigame" },
@@ -23,6 +23,14 @@ const AUTOPLAY_DELAY_MS = 4000;
 function HeroSection() {
   const [api, setApi] = useState<CarouselApi>();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const query = searchValue.trim();
+    navigate(query ? `/produits?q=${encodeURIComponent(query)}` : "/");
+  };
 
   useEffect(() => {
     if (!api) return;
@@ -83,7 +91,7 @@ function HeroSection() {
               variants={fadeUp}
               className="max-w-xl title text-4xl leading-[1.1] font-bold text-white sm:text-5xl lg:text-6xl"
             >
-              Achetez et <span className="text-primary">vendez en ligne</span>{" "}
+              Achetez et <span className="text-[#a97629]">vendez en ligne</span>{" "}
               en toute simplicité.
             </motion.h1>
             <motion.p
@@ -117,10 +125,15 @@ function HeroSection() {
               </div>
 
               <div className="w-full max-w-2xl">
-                <form className="flex items-center gap-2 rounded-full border bg-white p-2 shadow-xl">
+                <form
+                  onSubmit={handleSearch}
+                  className="flex items-center gap-2 rounded-full border bg-white p-2 shadow-xl"
+                >
                   <Search className="ml-3 size-5 shrink-0 text-neutral-400" />
                   <input
                     type="text"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
                     placeholder="Rechercher une catégorie, un produit…"
                     className="min-w-0 flex-1 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
                   />

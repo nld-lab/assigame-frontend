@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           <div className="flex flex-col gap-4">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/logo.png" alt="ASSIGAME" className="h-36 w-auto object-contain" />
+              <img src="/logoWhite.png" alt="ASSIGAME" className="h-10 w-auto object-contain" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               La plateforme de référence pour acheter, vendre ou échanger vos articles en toute simplicité au Togo. Connectez-vous directement avec des acheteurs et vendeurs locaux pour faire de bonnes affaires.

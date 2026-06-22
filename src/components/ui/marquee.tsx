@@ -5,7 +5,10 @@ interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   pauseOnHover?: boolean
   direction?: "left" | "right"
+  /** Durée d'un cycle complet, en secondes. */
   speed?: number
+  /** Espace (en rem) entre chaque élément du ruban. */
+  gap?: number
 }
 
 export function Marquee({
@@ -13,31 +16,39 @@ export function Marquee({
   pauseOnHover = false,
   direction = "left",
   speed = 30,
+  gap = 2,
   className,
   ...props
 }: MarqueeProps) {
   return (
-    <div 
-      className={cn(
-        "w-full overflow-hidden sm:mt-24 mt-10 z-10",
-        className
-      )} 
+    <div
+      className={cn("group w-full overflow-hidden", className)}
       {...props}
     >
-      <div 
-        className="relative flex max-w-[90vw] mx-auto overflow-hidden py-5"
+      <div
+        className="relative flex overflow-hidden py-4"
         style={{
-          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-          WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
+          maskImage:
+            "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
         }}
       >
-        <div 
+        <div
           className={cn(
-            "flex w-max animate-marquee will-change-transform",
-            pauseOnHover && "hover:[animation-play-state:paused]",
-            direction === "right" && "animate-marquee-reverse"
+            "flex w-max shrink-0 items-center will-change-transform",
+            direction === "right"
+              ? "animate-marquee-reverse"
+              : "animate-marquee",
+            pauseOnHover && "group-hover:paused"
           )}
-          style={{ "--duration": `${speed}s` } as React.CSSProperties}
+          style={
+            {
+              "--duration": `${speed}s`,
+              gap: `${gap}rem`,
+              paddingInlineEnd: `${gap}rem`,
+            } as React.CSSProperties
+          }
         >
           {children}
           {children}

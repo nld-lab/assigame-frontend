@@ -22,31 +22,34 @@ export function CategoryCard({ categorie, index }: CategoryCardProps) {
     return (
         <Link
             to={`/produits?categorie=${categorie.idcategorie_produit}`}
-            className="group block"
+            className="group flex w-28 shrink-0 flex-col items-center gap-3 sm:w-32"
         >
-            <div className="relative h-50 lg:w-60 overflow-hidden rounded-2xl bg-muted shadow-md transition-transform duration-300 group-hover:scale-[1.02]">
+            <div className="relative size-24 overflow-hidden rounded-full bg-muted shadow-md ring-1 ring-border transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:ring-primary/40 sm:size-20">
                 <img
                     src={imageSrc}
                     alt={categorie.nom_categorieproduit}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={() => {
                         if (imageSrc !== fallback) {
                             setImageSrc(fallback);
                         }
                     }}
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent" />
-                <p className="absolute inset-x-0 bottom-5 text-center text-base font-bold text-white sm:text-lg">
-                    {categorie.nom_categorieproduit}
-                </p>
+                <div className="absolute inset-0 rounded-full bg-linear-to-t from-black/30 to-transparent" />
             </div>
+            <p className="line-clamp-1 max-w-full text-center text-sm font-medium text-foreground transition-colors group-hover:text-primary">
+                {categorie.nom_categorieproduit}
+            </p>
         </Link>
     );
 }
 
 function CategorySkeleton() {
     return (
-        <div className="aspect-4/5 animate-pulse rounded-2xl bg-muted" />
+        <div className="flex w-28 shrink-0 flex-col items-center gap-3 sm:w-32">
+            <div className="size-24 animate-pulse rounded-full bg-muted sm:size-28" />
+            <div className="h-4 w-16 animate-pulse rounded bg-muted" />
+        </div>
     );
 }
 

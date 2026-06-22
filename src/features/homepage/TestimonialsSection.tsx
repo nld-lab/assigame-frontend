@@ -71,11 +71,10 @@ export const TestimonialsColumn = (props: {
                   <div className="text-[14px] leading-relaxed text-muted-foreground">{text}</div>
                   <div className="flex items-center gap-3 mt-5">
                     <img
-                      width={40}
-                      height={40}
+                  
                       src={image}
                       alt={name}
-                      className="h-10 w-10 rounded-full bg-muted border"
+                      className="h-10 w-10 object-cover rounded-full bg-muted border"
                     />
                     <div className="flex flex-col">
                       <div className="font-semibold text-sm tracking-tight leading-none">{name}</div>

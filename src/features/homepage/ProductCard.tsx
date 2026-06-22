@@ -47,11 +47,11 @@ export function ProductCard({ produit }: ProductCardProps) {
                 </div>
 
                 <div className="space-y-0.5">
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground line-clamp-1">
                         {produit.categorie_produit?.nom_categorieproduit ??
                             "Catégorie du produit"}
                     </p>
-                    <CardTitle className="line-clamp-2 text-sm font-bold leading-snug">
+                    <CardTitle className="line-clamp-1 text-sm font-bold leading-snug">
                         {produit.nom_produit}
                     </CardTitle>
                 </div>

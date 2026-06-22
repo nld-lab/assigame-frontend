@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
-import { LogOut, Menu, Store, User } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,9 @@ import { VisuallyHidden } from "radix-ui";
 import { ModeToggle } from "@/components/Toogle-mode";
 import { useAuth } from "@/hooks/use-auth";
 import { adminNav, vendeurNav, type NavItem } from "./dashboard-nav";
+import logoBlack from "/logoBlack.png"
+import logoWhite from "/logoWhite.png"
+import { useTheme } from "@/context/Theme-provider";
 
 function getInitials(prenom?: string, nom?: string) {
   const a = prenom?.[0] ?? "";
@@ -67,17 +70,18 @@ function SidebarContent({
   items,
   title,
   onNavigate,
+  logo,
 }: {
   items: NavItem[];
   title: string;
   onNavigate?: () => void;
+  logo: string;
 }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-2 px-5">
         <Link to="/" className="flex items-center gap-2" onClick={onNavigate}>
-          <Store className="size-5" />
-          <span className="font-bold">ASSIGAME</span>
+          <img src={logo} alt="logo" className="h-10 w-auto object-contain" />
         </Link>
       </div>
       <p className="px-5 pb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -93,7 +97,17 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const { theme } = useTheme();
+  const [logo, setLogo] = useState<string>(logoBlack);
+  useEffect(() => {
+    setTimeout(() => {
+      if (theme === "dark") {
+        setLogo(logoBlack);
+      } else {
+        setLogo(logoWhite);
+      }
+    }, 100);
+  }, [theme]);
   const isAdminArea = location.pathname.startsWith("/admin");
   const items = isAdminArea ? adminNav : vendeurNav;
   const sectionTitle = isAdminArea ? "Administration" : "Espace vendeur";
@@ -107,7 +121,7 @@ export default function DashboardLayout() {
     <div className="min-h-screen bg-muted/30">
       {/* Sidebar desktop */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-background md:block">
-        <SidebarContent items={items} title={sectionTitle} />
+        <SidebarContent items={items} title={sectionTitle} logo={logo} />
       </aside>
 
       <div className="flex min-h-screen flex-col md:pl-64">
@@ -129,6 +143,7 @@ export default function DashboardLayout() {
                 items={items}
                 title={sectionTitle}
                 onNavigate={() => setMobileOpen(false)}
+                logo={logo}
               />
             </SheetContent>
           </Sheet>
