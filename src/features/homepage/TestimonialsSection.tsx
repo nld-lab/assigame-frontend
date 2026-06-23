@@ -97,7 +97,7 @@ export default function TestimonialsSection() {
   const col3 = testimonials.slice(4, 6);
 
   return (
-    <section className="w-full py-20 relative overflow-hidden bg-background">
+    <section className="w-full py-20 relative">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center text-center gap-4 mb-16">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">

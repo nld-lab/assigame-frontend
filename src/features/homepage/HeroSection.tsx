@@ -61,7 +61,7 @@ function HeroSection() {
           <Carousel
             setApi={setApi}
             opts={{ loop: true }}
-            className="absolute inset-0 h-full w-full"
+            className="absolute inset-0 h-full w-full [&>div[data-slot=carousel-content]]:h-full"
           >
             <CarouselContent className="ml-0 h-full">
               {HERO_IMAGES.map((image) => (

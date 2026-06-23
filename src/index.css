@@ -256,3 +256,7 @@
 .title{
   font-family: 'Inria Serif', serif;
 }
+
+html{
+  overflow-x: hidden;
+}
