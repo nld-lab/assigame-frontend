@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export default function NotFound() {
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 text-center">
-      <p className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-black text-[40vw] text-foreground/2 leading-none">
+      <p className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-black text-[40vw] text-foreground/20 leading-none">
         404
       </p>
       <div className="relative z-10">
@@ -16,12 +16,12 @@ export default function NotFound() {
           moved.
         </p>
         <div className="mt-8 flex justify-center gap-3">
-          <Button asChild>
+          <Button asChild className="px-10">
             <Link to="/">Go home</Link>
           </Button>
-          <Button asChild variant="outline">
+          {/* <Button asChild variant="outline">
             <Link to="/contact">Contact support</Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

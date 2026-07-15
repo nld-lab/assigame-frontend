@@ -14,6 +14,14 @@ export function buildMailLink(
     return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+export function buildGmailComposeLink(
+    email: string,
+    subject: string,
+    body: string
+): string {
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export function buildProductContactMessage(
     productName: string,
     priceLabel: string

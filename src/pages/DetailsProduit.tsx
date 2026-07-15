@@ -21,7 +21,7 @@ import {
     ProductCard,
 } from "@/features/homepage/ProductCard";
 import {
-    buildMailLink,
+    buildGmailComposeLink,
     buildProductContactMessage,
     buildWhatsAppLink,
 } from "@/lib/contact-links";
@@ -138,7 +138,7 @@ export default function DetailsProduit() {
         : null;
     const mailLink =
         vendeur?.mail_utilisateur
-            ? buildMailLink(
+            ? buildGmailComposeLink(
                   vendeur.mail_utilisateur,
                   `Assigame — ${produit.nom_produit}`,
                   contactMessage
@@ -257,12 +257,14 @@ export default function DetailsProduit() {
                                 </Button>
                                 <Button
                                     asChild
-                                    
-                                    className="gap-2 px-20 rounded-full"
+                                    className="gap-2 px-20 rounded-full border-primary border-3 text-primary"
                                     disabled={!mailLink}
+                                    variant="outline"
                                 >
                                     <a
                                         href={mailLink ?? undefined}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         onClick={(e) => {
                                             if (!mailLink) {
                                                 e.preventDefault();
